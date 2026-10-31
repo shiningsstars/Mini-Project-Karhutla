@@ -5,6 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buat Laporan Karhutla</title>
 </head>
+<script>
+    const areaSelect = document.getElementById('area_id');
+    const areaInfo = document.getElementById('area-info');
+
+    areaSelect.addEventListener('change', function () {
+        const areaId = this.value;
+
+        if (!areaId) {
+            areaInfo.innerHTML = '<p>Pilih area untuk melihat informasi wilayah.</p>';
+            return;
+        }
+
+        areaInfo.innerHTML = '<p>Memuat informasi area...</p>';
+
+        fetch(`/areas/${areaId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Gagal mengambil informasi area.');
+                }
+
+                return response.json();
+            })
+            .then(data => {
+                areaInfo.innerHTML = `
+                    <h3>${data.name}</h3>
+                    <p>${data.description ?? 'Belum ada deskripsi area.'}</p>
+                `;
+            })
+            .catch(error => {
+                areaInfo.innerHTML = '<p>Informasi area tidak dapat dimuat.</p>';
+                console.error(error);
+            });
+    });
+</script>
 <body>
     <h1>Buat Laporan Karhutla</h1>
 
@@ -36,18 +70,21 @@
         </div>
 
         <div>
-            <label for="area_id">Area/Wilayah</label>
-            <select id="area_id" name="area_id" required>
-                <option value="">Pilih area</option>
+            <label for="area_id">Area Kejadian</label>
+
+            <select name="area_id" id="area_id" required>
+                <option value="">Pilih Area</option>
+
                 @foreach ($areas as $area)
-                    <option
-                        value="{{ $area->id }}"
-                        {{ old('area_id') == $area->id ? 'selected' : '' }}
-                    >
+                    <option value="{{ $area->id }}">
                         {{ $area->name }}
                     </option>
                 @endforeach
             </select>
+        </div>
+
+        <div id="area-info">
+            <p>Pilih area untuk melihat informasi wilayah.</p>
         </div>
 
         <div>

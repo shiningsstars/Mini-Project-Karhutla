@@ -49,4 +49,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/reports/{report}/review', [ReportReviewController::class, 'store'])
     ->name('reports.review.store');
+
+    Route::get('/areas/{area}', [ReportController::class, 'getArea'])
+    ->name('areas.show');
 });

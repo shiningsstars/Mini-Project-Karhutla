@@ -9,23 +9,52 @@ use Illuminate\Support\Facades\Auth;
 
 class ReportController extends Controller
 {
-    public function index()
+    
+    public function index(Request $request)
     {
         $user = Auth::user();
 
+        $query = Report::with(['area', 'user']);
+
         if ($user->role === 'pelapor') {
-            $reports = Report::with('area')
-                ->where('user_id', $user->id)
-                ->latest()
-                ->paginate(10);
-        } else {
-            $reports = Report::with(['area', 'user'])
-                ->latest()
-                ->paginate(10);
+            $query->where('user_id', $user->id);
         }
 
-        return view('reports.index', compact('reports'));
+        if ($request->filled('search')) {
+            $search = $request->search;
+
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                    ->orWhere('address', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('area_id')) {
+            $query->where('area_id', $request->area_id);
+        }
+
+        $allowedStatuses = [
+            'submitted',
+            'reviewed',
+            'needs_attention',
+            'forwarded',
+            'completed',
+        ];
+
+        if (in_array($request->status, $allowedStatuses, true)) {
+            $query->where('status', $request->status);
+        }
+
+        $reports = $query->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        $areas = Area::orderBy('name')->get();
+
+        return view('reports.index', compact('reports', 'areas'));
     }
+
 
     public function create()
     {
@@ -85,5 +114,14 @@ class ReportController extends Controller
         $report->load(['area', 'user', 'reviews.reviewer', 'followUps.coordinator']);
 
         return view('reports.show', compact('report'));
+    }
+
+    public function getArea(Area $area)
+    {
+        return response()->json([
+            'id' => $area->id,
+            'name' => $area->name,
+            'description' => $area->description,
+        ]);
     }
 }
