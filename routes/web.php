@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\ReportController;
 
 Route::middleware('guest')->group(function () {
     Route::get('/register', [RegisteredUserController::class, 'create'])
@@ -26,4 +27,18 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
 
 Route::get('/', function () {
     return redirect()->route('dashboard');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/reports', [ReportController::class, 'index'])
+        ->name('reports.index');
+
+    Route::get('/reports/create', [ReportController::class, 'create'])
+        ->name('reports.create');
+
+    Route::post('/reports', [ReportController::class, 'store'])
+        ->name('reports.store');
+
+    Route::get('/reports/{report}', [ReportController::class, 'show'])
+        ->name('reports.show');
 });

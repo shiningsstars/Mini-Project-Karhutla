@@ -26,6 +26,16 @@
         mendukung relawan dalam memantau dan menindaklanjuti laporan.
     </p>
 
+    <p>
+        <a href="{{ route('reports.index') }}">Lihat Daftar Laporan</a>
+    </p>
+
+    @if (Auth::user()->role === 'pelapor')
+        <p>
+            <a href="{{ route('reports.create') }}">Buat Laporan Baru</a>
+        </p>
+    @endif
+
     <form action="{{ route('logout') }}" method="POST">
         @csrf
         <button type="submit">Logout</button>
