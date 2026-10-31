@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\ReportFollowUpController;
+use App\Http\Controllers\ReportReviewController;
 
 Route::middleware('guest')->group(function () {
     Route::get('/register', [RegisteredUserController::class, 'create'])
@@ -41,4 +43,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/reports/{report}', [ReportController::class, 'show'])
         ->name('reports.show');
+
+    Route::post('/reports/{report}/follow-up', [ReportFollowUpController::class, 'store'])
+    ->name('reports.follow-up.store');
+
+    Route::post('/reports/{report}/review', [ReportReviewController::class, 'store'])
+    ->name('reports.review.store');
 });
