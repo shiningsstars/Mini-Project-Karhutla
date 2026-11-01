@@ -36,15 +36,15 @@
         </p>
     @endif
 
-    <form action="{{ route('logout') }}" method="POST">
-        @csrf
-        <button type="submit">Logout</button>
-    </form>
-
     @if (Auth::user()->role === 'koordinator')
         <p>
             <a href="{{ route('reports.recap') }}">Lihat Rekap Laporan</a>
         </p>
     @endif
+
+    <form action="{{ route('logout') }}" method="POST">
+        @csrf
+        <button type="submit">Logout</button>
+    </form>
 </body>
 </html>

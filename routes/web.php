@@ -42,6 +42,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/reports', [ReportController::class, 'store'])
         ->name('reports.store');
 
+    Route::get('/reports/recap', [ReportRecapController::class, 'index'])
+    ->name('reports.recap');
+
     Route::get('/reports/{report}', [ReportController::class, 'show'])
         ->name('reports.show');
 
@@ -53,7 +56,4 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/areas/{area}', [ReportController::class, 'getArea'])
     ->name('areas.show');
-
-    Route::get('/reports/recap', [ReportRecapController::class, 'index'])
-    ->name('reports.recap');
 });
