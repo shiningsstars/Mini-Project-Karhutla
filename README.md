@@ -1,58 +1,182 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sistem Pelaporan dan Pemantauan Kebakaran Hutan dan Lahan (Karhutla)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikasi web sederhana untuk membantu masyarakat melaporkan indikasi kebakaran hutan dan lahan (Karhutla), membantu relawan meninjau laporan, serta membantu koordinator mencatat penerusan informasi kepada pihak terkait.
 
-## About Laravel
+## Identitas
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+| Keterangan | Isi |
+|---|---|
+| Nama | **Hasya Nadana Hakim** |
+| NIM | **251511040** |
+| Kelas | **D3 - 2B** |
+| Kasus | **Kasus B: Karhutla** |
+| Repository GitHub | **https://github.com/shiningsstars/Mini-Project-Karhutla.git** |
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Fitur Aplikasi
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Aplikasi membedakan tiga fungsi pengguna:
 
-## Learning Laravel
+### 1. Pelapor
+- Membuat laporan indikasi Karhutla.
+- Mengisi informasi area, koordinat, alamat, waktu kejadian, kondisi yang terlihat, dan tingkat kondisi.
+- Mengunggah satu bukti pendukung (opsional).
+- Melihat daftar dan perkembangan laporan miliknya.
+- Mengubah laporan selama statusnya masih `submitted`.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 2. Relawan Pemantau
+- Melihat laporan yang masuk.
+- Meninjau kelengkapan dan kewajaran informasi.
+- Memberikan catatan hasil peninjauan.
+- Menentukan hasil peninjauan berupa informasi valid atau perlu perhatian lebih lanjut.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 3. Koordinator Relawan
+- Melihat rekap laporan.
+- Memfilter rekap berdasarkan area.
+- Melihat jumlah seluruh laporan, laporan aktif, dan laporan yang telah diteruskan.
+- Mencatat penerusan informasi kepada pihak terkait untuk laporan yang memerlukan perhatian lebih lanjut.
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+## Struktur Data
 
-## Agentic Development
+Data utama aplikasi terdiri dari:
+- `users`: pengguna dan role.
+- `areas`: wilayah kejadian.
+- `reports`: laporan indikasi Karhutla.
+- `report_reviews`: catatan peninjauan laporan.
+- `report_follow_ups`: catatan penerusan informasi.
+- `report_status_histories`: pencatatan perubahan status laporan oleh Observer.
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## Status Laporan
+
+Alur status yang digunakan dalam aplikasi:
+
+| Status | Keterangan |
+|---|---|
+| `submitted` | Laporan baru dikirim dan menunggu peninjauan. |
+| `reviewed` | Laporan telah ditinjau dan informasinya dinilai valid oleh relawan. |
+| `needs_attention` | Laporan memerlukan perhatian atau tindak lanjut lebih lanjut. |
+| `forwarded` | Informasi laporan telah dicatat sebagai diteruskan kepada pihak terkait. |
+| `completed` | Status tersedia pada daftar filter untuk menandai proses aplikasi yang telah selesai. |
+
+## Business Rule
+
+Aturan proses yang diterapkan:
+
+1. Pelapor hanya dapat melihat dan mengubah laporan miliknya sendiri.
+2. Pelapor hanya dapat mengubah laporan ketika statusnya masih `submitted`.
+3. Relawan hanya dapat meninjau laporan yang masih berstatus `submitted`.
+4. Koordinator hanya dapat mencatat penerusan untuk laporan berstatus `needs_attention`.
+5. Satu laporan hanya dapat memiliki satu catatan penerusan melalui alur aplikasi.
+
+## Teknologi dan Kebutuhan Environment
+
+Aplikasi dikembangkan menggunakan:
+- PHP.
+- Laravel.
+- MySQL.
+- Composer.
+- GitHub.
+- Blade.
+- XAMPP dapat digunakan untuk menjalankan MySQL secara lokal.
+
+Pastikan PHP, Composer, dan MySQL sudah terpasang dan dapat diakses melalui terminal.
+
+## Instalasi
+
+### 1. Clone repository
+
+Ganti alamat repository di bawah dengan URL repository GitHub yang digunakan.
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+git clone https://github.com/shiningsstars/Mini-Project-Karhutla.git
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### 2. Install dependency
 
-## Contributing
+```bash
+composer install
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 3. Buat file environment
 
-## Code of Conduct
+Untuk Windows PowerShell:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```powershell
+Copy-Item .env.example .env
+```
 
-## Security Vulnerabilities
+Untuk CMD:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```cmd
+copy .env.example .env
+```
 
-## License
+### 4. Buat application key
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+php artisan key:generate
+```
+
+## Konfigurasi Database
+
+Buat database dengan nama:
+
+```sql
+CREATE DATABASE db_karhutla;
+```
+
+Kemudian sesuaikan konfigurasi database pada file `.env`:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=db_karhutla
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+Setelah mengubah `.env`, bersihkan cache konfigurasi:
+
+```bash
+php artisan config:clear
+```
+
+## Migration dan Seeding
+
+Jalankan migration untuk membuat tabel:
+
+```bash
+php artisan migrate
+```
+
+Jalankan seeder untuk membuat akun demo dan data area:
+
+```bash
+php artisan db:seed
+```
+
+## Akun Demo
+
+Akun berikut disediakan oleh `UserSeeder`:
+
+| Role | Nama | Email | Password |
+|---|---|---|---|
+| Pelapor | Pak Andi | `andi@karhutla.test` | `password123` |
+| Relawan Pemantau | Bu Sari | `sari@karhutla.test` | `password123` |
+| Koordinator Relawan | Budi | `budi@karhutla.test` | `password123` |
+
+## Menjalankan Aplikasi
+
+Pastikan MySQL sudah berjalan, kemudian jalankan:
+
+```bash
+php artisan serve
+```
+
+Buka alamat berikut di browser:
+
+```text
+http://127.0.0.1:8000
+```
+
+Login menggunakan salah satu akun demo sesuai role untuk mencoba fungsi aplikasi.
