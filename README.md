@@ -55,7 +55,6 @@ Alur status yang digunakan dalam aplikasi:
 | `reviewed` | Laporan telah ditinjau dan informasinya dinilai valid oleh relawan. |
 | `needs_attention` | Laporan memerlukan perhatian atau tindak lanjut lebih lanjut. |
 | `forwarded` | Informasi laporan telah dicatat sebagai diteruskan kepada pihak terkait. |
-| `completed` | Status tersedia pada daftar filter untuk menandai proses aplikasi yang telah selesai. |
 
 ## Business Rule
 
