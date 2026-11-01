@@ -81,8 +81,12 @@ class ReportController extends Controller
             'evidence' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ]);
 
-        $evidencePath = $request->file('evidence')
-        ->store('report-evidence', 'public');
+        $evidencePath = null;
+
+        if ($request->hasFile('evidence')) {
+            $evidencePath = $request->file('evidence')
+                ->store('report-evidence', 'public');
+        } 
 
         Report::create([
             'user_id' => Auth::id(),

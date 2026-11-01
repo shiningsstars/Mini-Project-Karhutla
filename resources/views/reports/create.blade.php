@@ -173,5 +173,44 @@
         <button type="submit">Kirim Laporan</button>
         <a href="{{ route('reports.index') }}">Batal</a>
     </form>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const areaSelect = document.getElementById('area_id');
+        const areaInfo = document.getElementById('area-info');
+
+        areaSelect.addEventListener('change', async function () {
+            const areaId = this.value;
+
+            console.log('Area dipilih:', areaId);
+
+            if (!areaId) {
+                areaInfo.textContent = '';
+                return;
+            }
+
+            try {
+                const response = await fetch(`/areas/${areaId}`);
+
+                console.log('Status response:', response.status);
+
+                if (!response.ok) {
+                    throw new Error('Gagal mengambil informasi area');
+                }
+
+                const area = await response.json();
+
+                console.log('Data area:', area);
+
+                areaInfo.textContent =
+                    area.description || 'Tidak ada keterangan area.';
+
+            } catch (error) {
+                console.error(error);
+                areaInfo.textContent = 'Informasi area gagal dimuat.';
+            }
+        });
+    });
+    </script>
 </body>
 </html>

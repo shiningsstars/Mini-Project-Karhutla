@@ -56,4 +56,12 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/areas/{area}', [ReportController::class, 'getArea'])
     ->name('areas.show');
+
+    Route::get('/reports/{report}/edit', [ReportController::class, 'edit'])
+        ->whereNumber('report')
+        ->name('reports.edit');
+
+    Route::put('/reports/{report}', [ReportController::class, 'update'])
+        ->whereNumber('report')
+        ->name('reports.update');
 });
