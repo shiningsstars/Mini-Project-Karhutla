@@ -44,6 +44,18 @@
 
     <p>Status: {{ $report->status }}</p>
 
+    @if (
+        Auth::user()->role === 'pelapor'
+        && $report->user_id === Auth::id()
+        && $report->status === 'submitted'
+    )
+        <p>
+            <a href="{{ route('reports.edit', $report) }}">
+                Edit Laporan
+            </a>
+        </p>
+    @endif
+
     @if ($report->evidence_path)
         <p>
             <a

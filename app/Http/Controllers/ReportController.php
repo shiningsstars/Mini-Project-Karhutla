@@ -6,6 +6,7 @@ use App\Models\Area;
 use App\Models\Report;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ReportController extends Controller
 {
@@ -101,6 +102,68 @@ class ReportController extends Controller
         return redirect()
             ->route('reports.index')
             ->with('success', 'Laporan berhasil dikirim.');
+    }
+
+    public function edit(Report $report)
+    {
+        abort_unless(Auth::user()->role === 'pelapor', 403);
+
+        abort_unless($report->user_id === Auth::id(), 403);
+
+        abort_unless($report->status === 'submitted', 403);
+
+        $areas = Area::orderBy('name')->get();
+
+        return view('reports.edit', compact('report', 'areas'));
+    }
+
+    public function update(Request $request, Report $report)
+    {
+        abort_unless(Auth::user()->role === 'pelapor', 403);
+
+        abort_unless($report->user_id === Auth::id(), 403);
+
+        abort_unless($report->status === 'submitted', 403);
+
+        $validated = $request->validate([
+            'area_id' => 'required|exists:areas,id',
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'incident_at' => 'required|date',
+            'address' => 'required|string|max:255',
+            'latitude' => 'required|numeric|between:-90,90',
+            'longitude' => 'required|numeric|between:-180,180',
+            'condition_level' => 'required|in:low,medium,high',
+            'evidence' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+        ]);
+
+        $oldEvidencePath = $report->evidence_path;
+        $newEvidencePath = null;
+
+        if ($request->hasFile('evidence')) {
+            $newEvidencePath = $request->file('evidence')
+                ->store('report-evidence', 'public');
+        }
+
+        $report->update([
+            'area_id' => $validated['area_id'],
+            'title' => $validated['title'],
+            'description' => $validated['description'],
+            'incident_at' => $validated['incident_at'],
+            'address' => $validated['address'],
+            'latitude' => $validated['latitude'],
+            'longitude' => $validated['longitude'],
+            'condition_level' => $validated['condition_level'],
+            'evidence_path' => $newEvidencePath ?? $oldEvidencePath,
+        ]);
+
+        if ($newEvidencePath && $oldEvidencePath) {
+            Storage::disk('public')->delete($oldEvidencePath);
+        }
+
+        return redirect()
+            ->route('reports.show', $report)
+            ->with('success', 'Laporan berhasil diperbarui.');
     }
 
     public function show(Report $report)
