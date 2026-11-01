@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Models\Report;
+use App\Observers\ReportObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
