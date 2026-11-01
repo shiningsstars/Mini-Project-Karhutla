@@ -167,7 +167,6 @@
                 id="evidence"
                 name="evidence"
                 accept=".jpg,.jpeg,.png,.pdf"
-                required
             >
         </div>
 

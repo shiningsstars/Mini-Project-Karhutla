@@ -49,6 +49,7 @@
             <a
                 href="{{ asset('storage/' . $report->evidence_path) }}"
                 target="_blank"
+                rel="noopener noreferrer"
             >
                 Lihat Bukti Laporan
             </a>

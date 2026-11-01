@@ -78,7 +78,7 @@ class ReportController extends Controller
             'latitude' => 'required|numeric|between:-90,90',
             'longitude' => 'required|numeric|between:-180,180',
             'condition_level' => 'required|in:low,medium,high',
-            'evidence' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'evidence' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ]);
 
         $evidencePath = $request->file('evidence')
