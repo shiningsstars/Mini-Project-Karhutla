@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReportFollowUpController;
 use App\Http\Controllers\ReportReviewController;
+use App\Http\Controllers\ReportRecapController;
 
 Route::middleware('guest')->group(function () {
     Route::get('/register', [RegisteredUserController::class, 'create'])
@@ -52,4 +53,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/areas/{area}', [ReportController::class, 'getArea'])
     ->name('areas.show');
+
+    Route::get('/reports/recap', [ReportRecapController::class, 'index'])
+    ->name('reports.recap');
 });

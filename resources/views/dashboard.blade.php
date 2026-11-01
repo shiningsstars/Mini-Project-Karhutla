@@ -40,5 +40,11 @@
         @csrf
         <button type="submit">Logout</button>
     </form>
+
+    @if (Auth::user()->role === 'koordinator')
+        <p>
+            <a href="{{ route('reports.recap') }}">Lihat Rekap Laporan</a>
+        </p>
+    @endif
 </body>
 </html>
