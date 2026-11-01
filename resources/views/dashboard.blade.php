@@ -13,7 +13,14 @@
     </p>
 
     <p>
-        Role akun: {{ Auth::user()->role }}
+        Role akun:
+        {{
+            [
+                'pelapor' => 'Pelapor',
+                'relawan' => 'Relawan',
+                'koordinator' => 'Koordinator',
+            ][Auth::user()->role] ?? Auth::user()->role
+        }}
     </p>
 
     <hr>

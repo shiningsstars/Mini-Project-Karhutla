@@ -3,6 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        form {
+            display: flex;
+            flex-direction: column;
+            max-width: 400px;
+            gap: 6px;
+        }
+
+        form div {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+    </style>
     <title>Daftar Laporan Karhutla</title>
 </head>
 
@@ -42,7 +56,6 @@
                 <option value="reviewed" {{ request('status') === 'reviewed' ? 'selected' : '' }}>Sudah Direview</option>
                 <option value="needs_attention" {{ request('status') === 'needs_attention' ? 'selected' : '' }}>Perlu Perhatian</option>
                 <option value="forwarded" {{ request('status') === 'forwarded' ? 'selected' : '' }}>Sudah Diteruskan</option>
-                <option value="completed" {{ request('status') === 'completed' ? 'selected' : '' }}>Selesai</option>
             </select>
         </div>
 

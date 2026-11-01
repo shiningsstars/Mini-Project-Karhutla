@@ -161,9 +161,9 @@ Akun berikut disediakan oleh `UserSeeder`:
 
 | Role | Nama | Email | Password |
 |---|---|---|---|
-| Pelapor | Pak Andi | `andi@karhutla.test` | `password123` |
-| Relawan Pemantau | Bu Sari | `sari@karhutla.test` | `password123` |
-| Koordinator Relawan | Budi | `budi@karhutla.test` | `password123` |
+| Pelapor | Andi | `andi@karhutla.test` | `password123` |
+| Relawan | Sari | `sari@karhutla.test` | `password123` |
+| Koordinator | Budi | `budi@karhutla.test` | `password123` |
 
 ## Menjalankan Aplikasi
 

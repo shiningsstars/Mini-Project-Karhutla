@@ -40,7 +40,6 @@ class ReportController extends Controller
             'reviewed',
             'needs_attention',
             'forwarded',
-            'completed',
         ];
 
         if (in_array($request->status, $allowedStatuses, true)) {
